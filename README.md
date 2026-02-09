@@ -407,10 +407,10 @@ Este repositorio contiene modelos 3D y ensamblajes en formato comprimido que sup
 ### Instrucciones de descarga:
 Si al descargar el repositorio solo ves archivos pequeños (punteros de texto) en lugar de los archivos `.zip` reales, sigue estos pasos:
 
-1. **Instalar Git LFS:** Descárgalo desde [git-lfs.github.com](https://git-lfs.github.com/).
-2. **Configurar en el repo:** Abre una terminal en la carpeta del proyecto y ejecuta:
+1. **Instalar Git LFS / Configurar en el repo:** Abre una terminal en la carpeta del proyecto y ejecuta:
    ```bash
    git lfs install
-3. **Sincronizar los archivos: Para descargar el contenido real de los archivos pesados, ejecuta:
+2. **Sincronizar los archivos:** Para descargar el contenido real de los archivos pesados, ejecuta:
    ```bash
    git lfs pull
+
