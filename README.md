@@ -392,3 +392,25 @@ Aunque se habiliten pull-ups internos para pruebas, para hardware real se recomi
 Al usar dos buses I2C separados (uno por carril), se pueden repetir direcciones:
 - OLED A y OLED B pueden ser 0x3C
 - INA219 A y INA219 B pueden ser 0x40
+
+---
+
+## Modelos 3D y Archivos Pesados (Git LFS)
+
+Este repositorio contiene modelos 3D y ensamblajes en formato comprimido que superan los límites estándar de GitHub. Para descargarlos correctamente, es necesario tener instalado **Git LFS (Large File Storage)**.
+
+### Archivos incluidos:
+* `.\ELEMENTOS.zip`
+* `.\MECANISMO_ORIGINAL_SCALEX10.zip`
+* `.\PINES_CONECTORES.zip` (Contiene archivos `.f3d` y `.f3z` de Fusion 360)
+
+### Instrucciones de descarga:
+Si al descargar el repositorio solo ves archivos pequeños (punteros de texto) en lugar de los archivos `.zip` reales, sigue estos pasos:
+
+1. **Instalar Git LFS:** Descárgalo desde [git-lfs.github.com](https://git-lfs.github.com/).
+2. **Configurar en el repo:** Abre una terminal en la carpeta del proyecto y ejecuta:
+   ```bash
+   git lfs install
+3. **Sincronizar los archivos: Para descargar el contenido real de los archivos pesados, ejecuta:
+   ```bash
+   git lfs pull
