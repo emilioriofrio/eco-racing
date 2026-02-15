@@ -1,22 +1,32 @@
 #pragma once
-#include <Arduino.h>
+
+#if ECO_SIM
+  #include <cstdint>
+#else
+  #include <Arduino.h>
+#endif
 
 class PwmOutput {
 public:
   PwmOutput(int pin, int channel) : _pin(pin), _ch(channel) {}
 
   void begin(uint32_t freq_hz, uint8_t res_bits) {
+#if !ECO_SIM
     ledcSetup(_ch, freq_hz, res_bits);
     ledcAttachPin(_pin, _ch);
     _maxVal = (1U << res_bits) - 1U;
+#endif
     setDuty(0.0f);
   }
 
   void setDuty(float duty01) {
     if (duty01 < 0.0f) duty01 = 0.0f;
     if (duty01 > 1.0f) duty01 = 1.0f;
+
+#if !ECO_SIM
     const uint32_t val = static_cast<uint32_t>(duty01 * static_cast<float>(_maxVal));
     ledcWrite(_ch, val);
+#endif
     _lastDuty = duty01;
   }
 
@@ -25,6 +35,9 @@ public:
 private:
   int _pin;
   int _ch;
+
+#if !ECO_SIM
   uint32_t _maxVal = 1023;
+#endif
   float _lastDuty = 0.0f;
 };

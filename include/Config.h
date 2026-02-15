@@ -1,11 +1,17 @@
 #pragma once
-#include <Arduino.h>
+
+#if !ECO_SIM
+  #include <Arduino.h>
+#else
+  #include <cstdint>
+#endif
+
 
 // Lane count 
 static constexpr uint8_t LANES = 2;
 
 // PWM pins
-static constexpr int PIN_PWM_A = 25;
+static constexpr int PIN_PWM_A = 25; 
 static constexpr int PIN_PWM_B = 26;
 
 // IR sensors (interrupt)
@@ -13,8 +19,8 @@ static constexpr int PIN_IR_A = 34; // input only
 static constexpr int PIN_IR_B = 35; // input only
 
 // ADC pins (ADC1) 
-static constexpr int PIN_ADC_A = 36; // SENSOR_VP
-static constexpr int PIN_ADC_B = 39; // SENSOR_VN
+static constexpr int PIN_ADC_A = 36; // ADC_SOLAR (SENSOR VP)
+static constexpr int PIN_ADC_B = 39; // ADC_EOLICO (SENSOR VN)
 
 // I2C buses (Uno por línea)
 static constexpr int I2C_A_SDA = 21;
@@ -43,4 +49,9 @@ static constexpr float    MAX_DUTY = 0.85f;   // safety clamp
 static constexpr uint32_t IR_DEBOUNCE_US = 3000; // ajustar
 
 // Race config (cuántas vueltas es la meta)
-static constexpr uint32_t TARGET_LAPS = 10; // ajustar
+#if ECO_SIM
+static constexpr uint32_t TARGET_LAPS = 5; // para SIM, así no tarda mucho en terminar
+#else
+static constexpr uint32_t TARGET_LAPS = 10;
+#endif
+

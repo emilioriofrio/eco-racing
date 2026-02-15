@@ -172,6 +172,6 @@ void setup() {
 }
 
 void loop() {
-  // Vacío. Todo corre en tareas FreeRTOS.
+  // Todo corre en tareas FreeRTOS.
   vTaskDelay(pdMS_TO_TICKS(1000));
 }
