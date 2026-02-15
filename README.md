@@ -395,6 +395,80 @@ Al usar dos buses I2C separados (uno por carril), se pueden repetir direcciones:
 
 ---
 
+# 14) Simulación del sistema
+
+Además del firmware embebido en el ESP32, el proyecto incluye una **simulación del sistema de control** que permite validar el comportamiento lógico sin necesidad de hardware físico.
+
+La simulación replica:
+
+- Lectura de energía (ADC normalizado 0..1)
+- Aplicación del control proporcional
+- Limitación por `MAX_DUTY`
+- Conteo de vueltas
+- Condición de fin de carrera (`TARGET_LAPS`)
+- Evolución temporal del sistema
+
+Esto permite comprobar que la lógica implementada en `LaneController` funciona exactamente como se diseñó antes de ejecutarla en el microcontrolador.
+
+---
+
+## División de la simulación
+
+La simulación está estructurada en tres bloques principales:
+
+### 1) Modelo de energía
+
+Se genera una señal que representa la energía disponible por carril:
+
+- Puede ser constante
+- Puede ser variable en el tiempo
+- Puede simular ruido o fluctuaciones
+
+Esta señal reemplaza la lectura real del ADC.
+
+---
+
+### 2) Modelo de control
+
+Replica exactamente la lógica del firmware:
+
+- Normalización 0..1
+- Aplicación de límite `MAX_DUTY`
+- Estado del carril (`RUNNING`, `FINISHED`)
+- Condición de parada al alcanzar `TARGET_LAPS`
+
+Esto permite validar que el algoritmo implementado en `LaneController::update()` se comporta correctamente.
+
+---
+
+### 3) Modelo de dinámica de vueltas
+
+Se modela la relación entre duty aplicado y generación de vueltas:
+
+- Mayor duty → mayor velocidad → más vueltas por unidad de tiempo
+- Se simula la acumulación de vueltas
+- Se detecta el ganador
+
+Este bloque traduce señal eléctrica en comportamiento mecánico simulado.
+
+---
+
+## Cómo utilizar la simulación
+
+1. Ejecutar el archivo de simulación correspondiente. Habiendo compilado en el entorno correspondiente. Para el código del microcontrolador físico es [env:esp32dev], mientras que se debe cambiar a [env:native] para entrar en el condicional de la simulación.
+2. Definir:
+   - `TARGET_LAPS`
+   - `MAX_DUTY`
+   - Perfil de energía por carril
+3. Ejecutar el modelo temporal.
+4. Analizar:
+   - Evolución de duty
+   - Conteo de vueltas
+   - Tiempo total de carrera
+   - Ganador
+
+---
+
 ## Modelos 3D y Archivos Pesados (Git LFS)
 
 Este repositorio contiene modelos 3D y ensamblajes en formato comprimido que superan los límites estándar de GitHub. Para descargarlos correctamente, es necesario tener instalado **Git LFS (Large File Storage)**.
